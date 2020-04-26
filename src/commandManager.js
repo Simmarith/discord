@@ -4,7 +4,7 @@ class CommandManager {
     this.commands = {}
     this.prefix = 's!'
     client.on('message', message => {
-      if (message.toString().search(prefix) === 0) {
+      if (message.toString().search(this.prefix) === 0) {
         //find and execute the proper command handler
         const noPrefixMessage = message.toString().slice(this.prefix.length - 1)
         let onlyPayload = noPrefixMessage.split(' ')
