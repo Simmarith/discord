@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const token = require('../secrets/token')
-const CommandManager = require('./CommandManager')
+const CommandManager = require('./commandManager')
 const talkBack = require('./commands/talkBack')
 
 client.on('ready', () => {
