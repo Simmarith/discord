@@ -1,2 +1,3 @@
 secrets/token.js
 node_modules/**/*
+database.sqlite3
