@@ -1,15 +1,13 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const token = require('../secrets/token.js')
+const token = require('../secrets/token')
+const CommandManager = require('./CommandManager')
+const talkBack = require('./commands/talkBack')
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-});
-
-client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('pong');
-  }
+  const commandManager = new CommandManager(client)
+  commandManager.addCommand('talkBack', talkBack)
 });
 
 client.login(token);
