@@ -1,2 +1,2 @@
-token.js
+secrets/token.js
 node_modules/**/*
