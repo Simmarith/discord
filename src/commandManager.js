@@ -13,7 +13,7 @@ constructor(client) {
           return
         }
         if (onlyPayload === '') {
-          message.channel.send('You gave me no new prefix!')
+          getPrefix(message).then(prefix => message.channel.send(`\`${prefix}setPrefix <prefix>\``))
         } else {
           this.prefixes[message.guild.id] = onlyPayload
           Prefix.upsert({
