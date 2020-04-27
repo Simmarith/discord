@@ -1,6 +1,8 @@
+const getPrefix = require('../util/getPrefix')
+
 module.exports = function (message, onlyPayload) {
   if (onlyPayload === '') {
-    message.channel.send('You gave me nothing to say back!')
+    getPrefix(message).then(prefix => message.channel.send(`\`${prefix}talkBack <message>\``))
   } else {
     message.channel.send(onlyPayload)
   }

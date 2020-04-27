@@ -1,12 +1,17 @@
 const Prefix = require('../models/index.js').Prefix
+const checkPerm = require('./util/checkPerm.js')
+const getPrefix = require('./util/getPrefix.js')
 
 class CommandManager {
-  constructor(client) {
-    this.client = client
-    this.defaultPrefix = 's!'
-    this.prefixes = {}
-    this.commands = {
-      'setPrefix': (message, onlyPayload) => {
+constructor(client) {
+  this.client = client
+  this.defaultPrefix = 's!'
+  this.prefixes = {}
+  this.commands = {
+    'setPrefix': (message, onlyPayload) => {
+      if (!checkPerm(message, 'MANAGE_GUILD')) {
+          return
+        }
         if (onlyPayload === '') {
           message.channel.send('You gave me no new prefix!')
         } else {
@@ -21,18 +26,10 @@ class CommandManager {
       }
     }
     client.on('message', async message => {
-      let prefix = await Prefix.findOrCreate({
-        where: {
-          serverId: message.guild.id
-        },
-        defaults: {
-          value: this.defaultPrefix
-        }
-      })
-      prefix = prefix[0]
-      if (message.toString().search(prefix.value) === 0) {
+      const prefix = await getPrefix(message)
+      if (message.toString().search(prefix) === 0) {
         //find and execute the proper command handler
-        const noPrefixMessage = message.toString().slice(prefix.value.length)
+        const noPrefixMessage = message.toString().slice(prefix.length)
         const commandName = noPrefixMessage.split(' ')[0]
         let onlyPayload = noPrefixMessage.split(' ')
         onlyPayload.shift()
