@@ -13,7 +13,7 @@ module.exports = (client) => {
         }
       }).then(nick => {
         if (nick != null) {
-          message.reply(`${member.user.username} is currently set to AFK. He might take a while to answer.`)
+          message.reply(`${member.user.username} is currently set to AFK. They might take a while to answer.`)
         }
       })
     })
