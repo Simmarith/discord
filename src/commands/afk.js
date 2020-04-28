@@ -1,5 +1,5 @@
-const Nickname = require('../../models/index.js').Nickname
-const getPrefix = require('../util/getPrefix.js')
+const Nickname = require('../../models/').Nickname
+const getPrefix = require('../util/getPrefix')
 
 module.exports = async (message) => {
   const nick = await Nickname.findOne({

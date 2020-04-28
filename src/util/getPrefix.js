@@ -1,4 +1,4 @@
-const Prefix = require('../../models/index.js').Prefix
+const Prefix = require('../../models/').Prefix
 
 module.exports = async function (message) {
       const prefix = await Prefix.findOrCreate({

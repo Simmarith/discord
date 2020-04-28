@@ -1,6 +1,6 @@
-const Prefix = require('../models/index.js').Prefix
-const checkPerm = require('./util/checkPerm.js')
-const getPrefix = require('./util/getPrefix.js')
+const Prefix = require('../models/').Prefix
+const checkPerm = require('./util/checkPerm')
+const getPrefix = require('./util/getPrefix')
 
 class CommandManager {
 constructor(client) {
