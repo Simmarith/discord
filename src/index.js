@@ -9,7 +9,10 @@ const token = require('../secrets/token')
 const CommandManager = require('./commandManager')
 const talkBack = require('./commands/talkBack')
 const afk = require('./commands/afk')
+const muteUserWord = require('./commands/muteUserWord')
+const unmuteUserWord = require('./commands/unmuteUserWord')
 const afkReply = require('./afkReply')
+const checkUserWords = require('./checkUserWords')
 
 sequelize
   .authenticate()
@@ -25,8 +28,11 @@ client.on('ready', () => {
   const commandManager = new CommandManager(client)
   commandManager.addCommand('talkBack', talkBack)
   commandManager.addCommand('afk', afk)
+  commandManager.addCommand('muteUserWord', muteUserWord)
+  commandManager.addCommand('unmuteUserWord', unmuteUserWord)
 
   afkReply(client)
+  checkUserWords(client)
 });
 
 client.login(token);
