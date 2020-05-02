@@ -11,7 +11,7 @@ const talkBack = require('./commands/talkBack')
 const afk = require('./commands/afk')
 const muteUserWord = require('./commands/muteUserWord')
 const unmuteUserWord = require('./commands/unmuteUserWord')
-const deleteAttachments = require('./commands/deleteAttachments')
+const deleteImages = require('./commands/deleteImages')
 const afkReply = require('./afkReply')
 const checkUserWords = require('./checkUserWords')
 
@@ -31,7 +31,7 @@ client.on('ready', () => {
   commandManager.addCommand('afk', afk)
   commandManager.addCommand('muteUserWord', muteUserWord)
   commandManager.addCommand('unmuteUserWord', unmuteUserWord)
-  commandManager.addCommand('deleteAttachments', deleteAttachments)
+  commandManager.addCommand('deleteImages', deleteImages)
 
   afkReply(client)
   checkUserWords(client)

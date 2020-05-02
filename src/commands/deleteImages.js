@@ -7,11 +7,13 @@ module.exports = async (message, payloadOnly) => {
   }
   if (!/^\d+$/.test(payloadOnly)) {
     getPrefix(message).then(prefix => {
-      message.channel.send(`\`${prefix}deleteAttachments <number>\``)
+      message.channel.send(`\`${prefix}deleteImages <number>\``)
     })
     return
   }
   const lastMessages = await message.channel.messages.fetch()
-  const attachmentMessages = lastMessages.filter(message => message.attachments.array().length)
-  attachmentMessages.array().splice(0, parseInt(payloadOnly)).forEach(message => message.delete())
+  // TODO: descern images from other embeds?
+  const imageMessages = lastMessages.filter(message => message.attachments.array().length || message.embeds.length)
+  imageMessages.array().splice(0, parseInt(payloadOnly)).forEach(message => message.delete())
+  message.delete()
 }
