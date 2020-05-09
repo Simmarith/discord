@@ -11,9 +11,12 @@ const talkBack = require('./commands/talkBack')
 const afk = require('./commands/afk')
 const muteUserWord = require('./commands/muteUserWord')
 const unmuteUserWord = require('./commands/unmuteUserWord')
+const banName = require('./commands/banName')
+const unbanName = require('./commands/unbanName')
 const deleteImages = require('./commands/deleteImages')
 const afkReply = require('./afkReply')
 const checkUserWords = require('./checkUserWords')
+const instaBan = require('./instaBan')
 
 sequelize
   .authenticate()
@@ -32,9 +35,12 @@ client.on('ready', () => {
   commandManager.addCommand('muteUserWord', muteUserWord)
   commandManager.addCommand('unmuteUserWord', unmuteUserWord)
   commandManager.addCommand('deleteImages', deleteImages)
+  commandManager.addCommand('banName', banName)
+  commandManager.addCommand('unbanName', unbanName)
 
   afkReply(client)
   checkUserWords(client)
+  instaBan(client)
 });
 
 client.login(token);
