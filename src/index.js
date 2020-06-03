@@ -8,6 +8,7 @@ const client = new Discord.Client();
 const token = require('../secrets/token')
 const CommandManager = require('./commandManager')
 const talkBack = require('./commands/talkBack')
+const lego = require('./commands/lego')
 const afk = require('./commands/afk')
 const muteUserWord = require('./commands/muteUserWord')
 const unmuteUserWord = require('./commands/unmuteUserWord')
@@ -31,6 +32,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   const commandManager = new CommandManager(client)
   commandManager.addCommand('talkBack', talkBack)
+  commandManager.addCommand('lego', lego)
   commandManager.addCommand('afk', afk)
   commandManager.addCommand('muteUserWord', muteUserWord)
   commandManager.addCommand('unmuteUserWord', unmuteUserWord)
