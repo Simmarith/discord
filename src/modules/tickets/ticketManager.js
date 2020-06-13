@@ -118,7 +118,10 @@ class TicketManager extends Module {
           return
         }
         const fieldData = await Promise.all(ticket.TicketFields.map(ticket => ticket.getFormField()))
-        let fields = ticket.TicketFields.map((ticketField, i) => { return { name: fieldData[i].name, value: ticketField.value } })
+        let fields = ticket.TicketFields.map((ticketField, i) => { return {
+          name: fieldData[i].name,
+          value: ticketField.value != '' ? ticketField.value : '-'
+        }})
         fields.unshift({ name: 'Ticket', value: `${ticket.TicketForm.name} by <@${ticket.userId}>` })
         const channel = await message.author.createDM()
         channel.send({
