@@ -2,6 +2,9 @@ const UserWord = require('../models').UserWord
 
 module.exports = (client) => {
   async function checkMessage (message) {
+    if (message.guild == null) {
+      return 
+    }
     const words = await UserWord.findAll({
       where: {
         serverId: message.guild.id,

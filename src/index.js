@@ -18,6 +18,7 @@ const deleteImages = require('./commands/deleteImages')
 const afkReply = require('./afkReply')
 const checkUserWords = require('./checkUserWords')
 const instaBan = require('./instaBan')
+const ticketManager = require('./modules/tickets/ticketManager')
 
 sequelize
   .authenticate()
@@ -39,6 +40,7 @@ client.on('ready', () => {
   commandManager.addCommand('deleteImages', deleteImages)
   commandManager.addCommand('banName', banName)
   commandManager.addCommand('unbanName', unbanName)
+  commandManager.addModule('ticket', ticketManager)
 
   afkReply(client)
   checkUserWords(client)

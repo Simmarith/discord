@@ -27,7 +27,7 @@ constructor(client) {
     }
     client.on('message', async message => {
       const prefix = await getPrefix(message)
-      if (message.toString().search(prefix) === 0) {
+      if ((prefix != null) && (message.toString().search(prefix) === 0)) {
         //find and execute the proper command handler
         const noPrefixMessage = message.toString().slice(prefix.length)
         const commandName = noPrefixMessage.split(' ')[0]
@@ -45,6 +45,10 @@ constructor(client) {
 
   addCommand(command, callback) {
     this.commands[command] = callback
+  }
+
+  addModule(command, module) {
+    this.commands[command] = module.onMessage.bind(module)
   }
 }
 

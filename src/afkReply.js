@@ -2,7 +2,7 @@ const Nickname = require('../models/').Nickname
 
 module.exports = (client) => {
   client.on('message', (message) => {
-    if (message.author.bot) {
+    if (message.author.bot || message.mentions.members == null) {
       return
     }
     message.mentions.members.forEach(member => {
