@@ -33,12 +33,12 @@ class TicketCreator {
   }
 
   async requestTicketForm() {
-    await this.channel.send('Please send the Id (number) for the ticketForm.')
+    await this.channel.send('Please reply with the number for the Form you want to fill out.')
     this.ticketFormId = await selectForm(this.serverId, this.channel, this.user.id)
   }
 
   async fillFields() {
-    await this.channel.send('Please enter values (text and links only) for the following fields:')
+    await this.channel.send('Please reply (text and links only) for the following fields:')
     for (let i = 0; i < this.formFields.length; i++) {
       await this.fillField(this.formFields[i])
     }

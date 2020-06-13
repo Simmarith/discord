@@ -82,7 +82,7 @@ class TicketManager extends Module {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the id(number) of the ticket you want to claim:')
+    await message.channel.send('Reply with the number of the ticket you want to claim:')
     const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id)
     Ticket.findOne({
       where: {
@@ -103,7 +103,7 @@ class TicketManager extends Module {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the id(number) of the ticket you want to read:')
+    await message.channel.send('Reply with the number of the ticket you want to read:')
     const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id, { state: 'claimed', user: message.author.id })
     Ticket.findOne({
       where: {
@@ -134,13 +134,13 @@ class TicketManager extends Module {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the id(number) of the ticket you want to release:')
+    await message.channel.send('Reply with the number of the ticket you want to release:')
     const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id, { state: 'claimed', user: message.author.id})
     Ticket.findOne({
       where: {
         id: ticketId,
         serverId: message.guild.id,
-        assignee: message.author.id
+        assigneeId: message.author.id
       }
     })
       .then(ticket => {
@@ -160,13 +160,13 @@ class TicketManager extends Module {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the id(number) of the ticket you want to close:')
+    await message.channel.send('Reply with the number of the ticket you want to close:')
     const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id, { state: 'claimed', user: message.author.id })
     Ticket.findOne({
       where: {
         id: ticketId,
         serverId: message.guild.id,
-        assignee: message.author.id
+        assigneeId: message.author.id
       }
     })
       .then(ticket => {
@@ -249,7 +249,7 @@ class TicketManager extends Module {
 
   async renameForm(message) {
     if (!checkPerm(message, 'MANAGE_GUILD')) { return }
-    await message.channel.send('Please reply with the id(number) of the form to rename:')
+    await message.channel.send('Please reply with the number of the form to rename:')
     const formId = await selectForm(message.guild.id, message.channel, message.author.id)
     const form = await TicketForm.findOne({
       where: {
@@ -272,7 +272,7 @@ class TicketManager extends Module {
 
   async disableForm(message) {
     if (!checkPerm(message, 'MANAGE_GUILD')) { return }
-    await message.channel.send('Please reply with the id(number) of the form to disable:')
+    await message.channel.send('Please reply with the number of the form to disable:')
     const form = await TicketForm.findOne({
       where: {
         id: await selectForm(message.guild.id, message.channel, message.author.id),
@@ -292,7 +292,7 @@ class TicketManager extends Module {
 
   async enableForm(message) {
     if (!checkPerm(message, 'MANAGE_GUILD')) { return }
-    await message.channel.send('Please reply with the id(number) of the form to enable:')
+    await message.channel.send('Please reply with the number of the form to enable:')
     const form = await TicketForm.findOne({
       where: {
         id: await selectForm(message.guild.id, message.channel, message.author.id, 'inactive'),
@@ -312,7 +312,7 @@ class TicketManager extends Module {
 
   async deleteForm(message) {
     if (!checkPerm(message, 'MANAGE_GUILD')) { return }
-    await message.channel.send('Please reply with the id(number) of the form to delete:')
+    await message.channel.send('Please reply with the number of the form to delete:')
     const form = await TicketForm.findOne({
       where: {
         id: await selectForm(message.guild.id, message.channel, message.author.id, 'inactive'),
