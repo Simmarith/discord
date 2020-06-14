@@ -201,6 +201,9 @@ class TicketManager extends Module {
 
   async hasTicketRole(message) {
     const ticketRole = await TicketRole.findByPk(message.guild.id)
+    if (ticketRole == null) {
+      return false
+    }
     return message.member.roles.cache.array().find(role => role.id === ticketRole.roleId) !== undefined
   }
 
