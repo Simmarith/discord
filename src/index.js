@@ -19,6 +19,7 @@ const afkReply = require('./afkReply')
 const checkUserWords = require('./checkUserWords')
 const instaBan = require('./instaBan')
 const ticketManager = require('./modules/tickets/ticketManager')
+const help = require('./commands/help')
 
 sequelize
   .authenticate()
@@ -35,6 +36,7 @@ client.on('ready', () => {
   commandManager.addCommand('talkBack', talkBack)
   commandManager.addCommand('lego', lego)
   commandManager.addCommand('afk', afk)
+  commandManager.addCommand('help', help)
   commandManager.addCommand('muteUserWord', muteUserWord)
   commandManager.addCommand('unmuteUserWord', unmuteUserWord)
   commandManager.addCommand('deleteImages', deleteImages)
