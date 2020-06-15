@@ -238,7 +238,7 @@ class TicketManager extends Module {
           { name: 'rename', description: 'rename an existing form' },
           { name: 'disable', description: 'disables this form from being used to open tickets' },
           { name: 'enable', description: 'enables this form for being used to open tickets' },
-          { name: 'delete', description: 'permanently removes a form and all it´s tickets' }
+          { name: 'delete', description: 'permanently removes a form and all its tickets' }
         ]))
         break;
     }
