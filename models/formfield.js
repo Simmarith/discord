@@ -1,4 +1,4 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const FormField = sequelize.define('FormField', {
     id: {
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     ticketFormId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING
-  }, {});
+  }, {})
   FormField.associate = function(models) {
     // associations can be defined here
     FormField.belongsTo(models.TicketForm)
@@ -17,6 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'formFieldId',
       onDelete: 'CASCADE'
     })
-  };
-  return FormField;
-};
+  }
+  return FormField
+}

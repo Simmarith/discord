@@ -1,10 +1,10 @@
-'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   const TicketForm = sequelize.define('TicketForm', {
     serverId: DataTypes.STRING,
     name: DataTypes.STRING,
     state: DataTypes.ENUM('active', 'inactive')
-  }, {});
+  }, {})
   TicketForm.associate = function(models) {
     // associations can be defined here
     TicketForm.hasMany(models.FormField, {
@@ -15,6 +15,6 @@ module.exports = (sequelize, DataTypes) => {
     TicketForm.hasMany(models.Ticket, {
       foreignKey: 'ticketFormId'
     })
-  };
-  return TicketForm;
-};
+  }
+  return TicketForm
+}

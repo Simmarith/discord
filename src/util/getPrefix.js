@@ -1,7 +1,7 @@
-const Prefix = require('../../models/').Prefix
-const defaultPrefix = 's!'
+const Prefix = require('../../models/').Prefix,
+ defaultPrefix = 's!'
 
-module.exports = async (message) => {
+module.exports = async(message) => {
   if (message.guild == null) {
     return null
   }

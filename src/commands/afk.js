@@ -1,7 +1,6 @@
 const Nickname = require('../../models/').Nickname
-const getPrefix = require('../util/getPrefix')
 
-module.exports = async (message) => {
+module.exports = async(message) => {
   const nick = await Nickname.findOne({
     where: {
       serverId: message.guild.id,
@@ -19,7 +18,7 @@ module.exports = async (message) => {
       value: message.member.nickname
     })
     let newNick = (message.member.nickname == null) ? message.author.username : message.member.nickname
-    newNick = '[AFK]' + newNick
+    newNick = `[AFK]${newNick}`
     message.member.setNickname(
       newNick,
       'afk activated')

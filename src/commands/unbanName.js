@@ -2,7 +2,7 @@ const BannedName = require('../../models').BannedName
 const checkPerm = require('../util/checkPerm')
 const getPrefix = require('../util/getPrefix')
 
-module.exports = async (message, payloadOnly) => {
+module.exports = async(message, payloadOnly) => {
   if (!checkPerm(message, 'BAN_MEMBERS')) {
     return
   }
@@ -20,8 +20,8 @@ module.exports = async (message, payloadOnly) => {
       serverId: message.guild.id,
       name
     }
-  })
-  const namesCount = names.length
+  }),
+   namesCount = names.length
   names.forEach(name => name.destroy())
   message.channel.send(`Deleted ${namesCount} banned names.`)
 }

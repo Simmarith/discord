@@ -10,18 +10,18 @@ const TicketForm = require('../../../../models/').TicketForm
  *
  * @return {string|null} ticketFormId of selected ticketForm (not verified!)
  */
-module.exports = async (serverId, channel, selectBy, state = 'active') => {
+module.exports = async(serverId, channel, selectBy, state = 'active') => {
   const forms = await TicketForm.findAll({
-    where: { serverId, state }
+    where: {serverId, state}
   })
 
   await channel.send({
     embed: {
-      fields: forms.map(form => { return { name: form.id, value: form.name }})
+      fields: forms.map(form => { return {name: form.id, value: form.name} })
     }
   })
 
   if (selectBy != null) {
-    return channel.awaitMessages((message) => message.author.id === selectBy, { max: 1 }).then(messages => messages.first().content)
+    return channel.awaitMessages((message) => message.author.id === selectBy, {max: 1}).then(messages => messages.first().content)
   }
 }

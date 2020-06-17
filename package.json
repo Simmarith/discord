@@ -22,5 +22,10 @@
     "discord.js": "^12.2.0",
     "sequelize": "^5.21.7",
     "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3"
   }
 }

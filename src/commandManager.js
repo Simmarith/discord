@@ -3,6 +3,7 @@ const checkPerm = require('./util/checkPerm')
 const getPrefix = require('./util/getPrefix')
 
 class CommandManager {
+
 constructor(client) {
   this.client = client
   this.defaultPrefix = 's!'
@@ -28,9 +29,9 @@ constructor(client) {
     client.on('message', async message => {
       const prefix = await getPrefix(message)
       if ((prefix != null) && (message.toString().search(prefix) === 0)) {
-        //find and execute the proper command handler
-        const noPrefixMessage = message.toString().slice(prefix.length)
-        const commandName = noPrefixMessage.split(' ')[0]
+        // find and execute the proper command handler
+        const noPrefixMessage = message.toString().slice(prefix.length),
+         commandName = noPrefixMessage.split(' ')[0]
         let onlyPayload = noPrefixMessage.split(' ')
         onlyPayload.shift()
         onlyPayload = onlyPayload.join(' ')
@@ -50,6 +51,7 @@ constructor(client) {
   addModule(command, module) {
     this.commands[command] = module.onMessage.bind(module)
   }
+
 }
 
 module.exports = CommandManager

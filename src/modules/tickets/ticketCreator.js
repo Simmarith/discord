@@ -1,11 +1,11 @@
-const Models = require('../../../models/')
-const Ticket = Models.Ticket
-const TicketField = Models.TicketField
-const TicketForm = Models.TicketForm
-const FormField = Models.FormField
+const Models = require('../../../models/'),
+ Ticket = Models.Ticket,
+ TicketField = Models.TicketField,
+ TicketForm = Models.TicketForm
 const selectForm = require('./util/selectForm.js')
 
 class TicketCreator {
+
   constructor(message) {
     this.serverId = message.guild.id
     this.userId = message.member.id
@@ -53,7 +53,7 @@ class TicketCreator {
           }]
       }
     })
-    await this.channel.awaitMessages(() => true, { max: 1 }).then(messages => {
+    await this.channel.awaitMessages(() => true, {max: 1}).then(messages => {
       this.ticketFields.push({
         formFieldId: formField.id,
         value: messages.first().content
@@ -81,6 +81,7 @@ class TicketCreator {
     this.user.send('Ticket saved.')
     this.user.deleteDM()
   }
+
 }
 
 module.exports = TicketCreator

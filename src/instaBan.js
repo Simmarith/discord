@@ -9,7 +9,7 @@ module.exports = (client) => {
       }
     }).then(occurences => {
       if (occurences !== 0) {
-        member.ban({ reason: 'found match in bannedNames' })
+        member.ban({reason: 'found match in bannedNames'})
       }
     })
   })

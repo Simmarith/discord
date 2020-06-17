@@ -1,8 +1,9 @@
-const Models = require('../../../models/')
-const TicketForm = Models.TicketForm
-const FormField = Models.FormField
+const Models = require('../../../models/'),
+ TicketForm = Models.TicketForm,
+ FormField = Models.FormField
 
 class FormCreator {
+
   constructor(message) {
     this.serverId = message.guild.id
     this.user = message.author
@@ -15,7 +16,7 @@ class FormCreator {
     this.channel = await this.user.createDM()
     // We don't want awaitMessages to fetch this one
     await this.channel.send('Please enter the name for your new Form')
-    await this.channel.awaitMessages(() => true, { max: 1 }).then(messages => {
+    await this.channel.awaitMessages(() => true, {max: 1}).then(messages => {
       this.formName = messages.first().content
       this.createFormFields()
     })
@@ -23,6 +24,7 @@ class FormCreator {
 
   async createFormFields() {
     await this.user.send('I will now ask you about the fields this form is going to have.')
+    // eslint-disable-next-line no-empty
     while(await this.createFormField()) {}
     this.commit()
   }
@@ -30,16 +32,16 @@ class FormCreator {
   async createFormField() {
     const formField = {}
     await this.channel.send('Please choose a name for this field')
-    await this.channel.awaitMessages(() => true, { max: 1 }).then(messages => {
+    await this.channel.awaitMessages(() => true, {max: 1}).then(messages => {
       formField.name = messages.first().content  
     })
     await this.channel.send('Please choose a description for this field')
-    await this.channel.awaitMessages(() => true, { max: 1 }).then(messages => {
+    await this.channel.awaitMessages(() => true, {max: 1}).then(messages => {
       formField.description = messages.first().content  
     })
     this.formFields.push(formField)
     await this.channel.send('Do you want to add another field?(y/N)')
-    return this.channel.awaitMessages(() => true, { max: 1 }).then(messages => {
+    return this.channel.awaitMessages(() => true, {max: 1}).then(messages => {
       return messages.first().content === 'y'
     })
   }
@@ -70,6 +72,7 @@ class FormCreator {
       })
     })
   }
+
 }
 
 module.exports = FormCreator

@@ -6,8 +6,8 @@ module.exports = (message, payloadOnly) => {
   if (!checkPerm(message, 'MANAGE_MESSAGES') || message.author.bot) {
     return
   }
-  const user = message.mentions.members.first()
-  const word = payloadOnly.substr(payloadOnly.indexOf(' ') + 1)
+  const user = message.mentions.members.first(),
+   word = payloadOnly.substr(payloadOnly.indexOf(' ') + 1)
   if (user == null || word === '') {
     getPrefix(message).then(prefix => {
       message.channel.send(`\`${prefix}muteUserWord <user> <word(-s)>\``)

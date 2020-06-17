@@ -1,7 +1,7 @@
 const UserWord = require('../models').UserWord
 
 module.exports = (client) => {
-  async function checkMessage (message) {
+  async function checkMessage(message) {
     if (message.guild == null) {
       return 
     }
