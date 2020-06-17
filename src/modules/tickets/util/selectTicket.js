@@ -18,6 +18,11 @@ module.exports = async (serverId, channel, selectBy, { state = 'open', user = nu
     include: [TicketForm]
   })
 
+  if (tickets.length === 0) {
+    await channel.send('No tickets found')
+    return null
+  }
+
   await channel.send({
     embed: {
       fields: tickets.map(ticket => { return {
