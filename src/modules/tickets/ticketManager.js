@@ -17,16 +17,7 @@ class TicketManager extends Module {
 
   onMessage(message, onlyPayload) {
     if (onlyPayload == '') {
-      getPrefix(message).then(prefix => printHelp(message.channel, `${prefix}ticket `, [
-        {name: 'open', description: 'open a new ticket (in DMs)'},
-        {name: 'list', description: 'list all open tickets'},
-        {name: 'claim', description: 'claim a ticket'},
-        {name: 'show', description: 'shows one of your claimed tickets (in DMs)'},
-        {name: 'release', description: 'release one of your claimed tickets back into the pool'},
-        {name: 'close', description: 'close one of your tickets'},
-        {name: 'role', params: '<role>', description: 'set the role which can work on tickets'},
-        {name: 'form', params: '<command>', description: `operations for the forms; type \`${prefix}ticket form\` for more info`}
-      ]))
+      this.printHelp(message)
       return
     }
     const ticketOp = onlyPayload.split(' ')[0]
@@ -58,10 +49,27 @@ class TicketManager extends Module {
       case 'form':
         this.manageForm(message, onlyPayload)
         break
+      case 'help':
+        this.printHelp(message)
+        break
       default:
         message.channel.send('Invalid ticket operation.')
         break
     }
+  }
+
+  printHelp(message) {
+    return getPrefix(message).then(prefix => printHelp(message.channel, `${prefix}ticket `, [
+      {name: 'help', description: 'print this help'},
+      {name: 'open', description: 'open a new ticket (in DMs)'},
+      {name: 'list', description: 'list all open tickets'},
+      {name: 'claim', description: 'claim a ticket'},
+      {name: 'show', description: 'shows one of your claimed tickets (in DMs)'},
+      {name: 'release', description: 'release one of your claimed tickets back into the pool'},
+      {name: 'close', description: 'close one of your tickets'},
+      {name: 'role', params: '<role>', description: 'set the role which can work on tickets'},
+      {name: 'form', params: '<command>', description: `operations for the forms; type \`${prefix}ticket form\` for more info`}
+    ]))
   }
 
   createTicket(message) {
