@@ -82,7 +82,7 @@ class TicketManager extends Module {
       return
     }
     await message.channel.send('Reply with the number of the ticket you want to claim:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id)
+    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id)
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
@@ -92,7 +92,7 @@ class TicketManager extends Module {
     })
       .then(ticket => {
         ticket.state = 'claimed'
-        ticket.assigneeId = message.author.id
+        ticket.assigneeId = message.member.id
         ticket.save().then(() => { message.channel.send('Ticket claimed!') })
       })
       .catch(() => message.channel.send('couldn´t get ticket'))
@@ -104,7 +104,7 @@ class TicketManager extends Module {
       return
     }
     await message.channel.send('Reply with the number of the ticket you want to read:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id, {state: 'claimed', user: message.author.id})
+    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
@@ -141,13 +141,13 @@ class TicketManager extends Module {
       return
     }
     await message.channel.send('Reply with the number of the ticket you want to release:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id, {state: 'claimed', user: message.author.id})
+    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
         id: ticketId,
         serverId: message.guild.id,
-        assigneeId: message.author.id
+        assigneeId: message.member.id
       }
     })
       .then(ticket => {
@@ -168,13 +168,13 @@ class TicketManager extends Module {
       return
     }
     await message.channel.send('Reply with the number of the ticket you want to close:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.author.id, {state: 'claimed', user: message.author.id})
+    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
         id: ticketId,
         serverId: message.guild.id,
-        assigneeId: message.author.id
+        assigneeId: message.member.id
       }
     })
       .then(ticket => {

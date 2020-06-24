@@ -34,7 +34,7 @@ class TicketCreator {
 
   async requestTicketForm() {
     await this.channel.send('Please reply with the number for the Form you want to fill out.')
-    this.ticketFormId = await selectForm(this.serverId, this.channel, this.user.id)
+    this.ticketFormId = await selectForm(this.serverId, this.channel, this.userId)
   }
 
   async fillFields() {
@@ -67,7 +67,7 @@ class TicketCreator {
     }
     Ticket.create({
       serverId: this.serverId,
-      userId: this.user.id,
+      userId: this.userId,
       ticketFormId: this.form.id
     }).then(ticket => {
       this.ticketFields.forEach(ticketField => {
