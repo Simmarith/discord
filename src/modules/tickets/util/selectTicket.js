@@ -28,7 +28,7 @@ module.exports = async(serverId, channel, selectBy, {state = 'open', user = null
       .then(guildMember => {
         return {
           name: ticket.id,
-          value: `${ticket.TicketForm.name} by <@${guildMember.user.id}>${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
+          value: `${ticket.TicketForm.name} by <@!${guildMember.user.id}>${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
       })
       .catch(() => {
         return {
