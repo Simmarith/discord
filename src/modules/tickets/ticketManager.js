@@ -32,16 +32,16 @@ class TicketManager extends Module {
         this.listTickets(message)
         break
       case 'claim':
-        this.claimTicket(message)
+        this.claimTicket(message, onlyPayload)
         break
       case 'show':
-        this.showTicket(message)
+        this.showTicket(message, onlyPayload)
         break
       case 'release':
-        this.releaseTicket(message)
+        this.releaseTicket(message, onlyPayload)
         break
       case 'close':
-        this.closeTicket(message)
+        this.closeTicket(message, onlyPayload)
         break
       case 'role':
         this.setRole(message, onlyPayload)
@@ -63,10 +63,10 @@ class TicketManager extends Module {
       {name: 'help', description: 'print this help'},
       {name: 'open', description: 'open a new ticket (in DMs)'},
       {name: 'list', description: 'list all open tickets'},
-      {name: 'claim', description: 'claim a ticket'},
-      {name: 'show', description: 'shows one of your claimed tickets (in DMs)'},
-      {name: 'release', description: 'release one of your claimed tickets back into the pool'},
-      {name: 'close', description: 'close one of your tickets'},
+      {name: 'claim', params: '<ticketId>', description: 'claim a ticket'},
+      {name: 'show', params: '<ticketId>', description: 'shows one of your claimed tickets (in DMs)'},
+      {name: 'release', params: '<ticketId>', description: 'release one of your claimed tickets back into the pool'},
+      {name: 'close', params: '<ticketId>', description: 'close one of your tickets'},
       {name: 'role', params: '<role>', description: 'set the role which can work on tickets'},
       {name: 'form', params: '<command>', description: `operations for the forms; type \`${prefix}ticket form\` for more info`}
     ]))
@@ -84,13 +84,18 @@ class TicketManager extends Module {
     selectTicket(message.guild.id, message.channel, false)
   }
 
-  async claimTicket(message) {
+  async claimTicket(message, onlyPayload) {
     if (!await this.hasTicketRole(message)) {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the number of the ticket you want to claim:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id)
+    let ticketId = null
+    if (/^\d+$/.test(onlyPayload)) {
+      ticketId = onlyPayload
+    } else {
+      await message.channel.send('Reply with the number of the ticket you want to claim:')
+      ticketId = await selectTicket(message.guild.id, message.channel, message.member.id)
+    }
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
@@ -106,18 +111,24 @@ class TicketManager extends Module {
       .catch(() => message.channel.send('couldn´t get ticket'))
   }
 
-  async showTicket(message) {
+  async showTicket(message, onlyPayload) {
     if (!await this.hasTicketRole(message)) {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the number of the ticket you want to read:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
-    if (ticketId == null) { return message.channel.send('=> aborting') }
+    let ticketId = null
+    if (/^\d+$/.test(onlyPayload)) {
+      ticketId = onlyPayload
+    } else {
+      await message.channel.send('Reply with the number of the ticket you want to read:')
+      ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
+      if (ticketId == null) { return message.channel.send('=> aborting') }
+    }
     Ticket.findOne({
       where: {
         id: ticketId,
-        serverId: message.guild.id
+        serverId: message.guild.id,
+        assigneeId: message.member.id
       },
       include: [TicketForm, TicketField]
     },)
@@ -143,13 +154,18 @@ class TicketManager extends Module {
       })
   }
 
-  async releaseTicket(message) {
+  async releaseTicket(message, onlyPayload) {
     if (!await this.hasTicketRole(message)) {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the number of the ticket you want to release:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
+    let ticketId = null
+    if (/^\d+$/.test(onlyPayload)) {
+      ticketId = onlyPayload
+    } else {
+      await message.channel.send('Reply with the number of the ticket you want to release:')
+      ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
+    }
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
@@ -170,13 +186,18 @@ class TicketManager extends Module {
       .catch(() => message.channel.send('couldn´t release ticket'))
   }
 
-  async closeTicket(message) {
+  async closeTicket(message, onlyPayload) {
     if (!await this.hasTicketRole(message)) {
       message.channel.send('You are not allowed to use this command!')
       return
     }
-    await message.channel.send('Reply with the number of the ticket you want to close:')
-    const ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
+    let ticketId = null
+    if (/^\d+$/.test(onlyPayload)) {
+      ticketId = onlyPayload
+    } else {
+      await message.channel.send('Reply with the number of the ticket you want to close:')
+      ticketId = await selectTicket(message.guild.id, message.channel, message.member.id, {state: 'claimed', user: message.member.id})
+    }
     if (ticketId == null) { return message.channel.send('=> aborting') }
     Ticket.findOne({
       where: {
