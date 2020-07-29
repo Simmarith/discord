@@ -2,7 +2,7 @@ const UserWord = require('../models').UserWord
 
 module.exports = (client) => {
   async function checkMessage(message) {
-    if (message.guild == null) {
+    if (message.guild == null || message.member == null) {
       return 
     }
     const words = await UserWord.findAll({
