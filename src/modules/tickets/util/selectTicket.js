@@ -24,16 +24,18 @@ module.exports = async(serverId, channel, selectBy, {state = 'open', user = null
   }
 
   const fields = await Promise.all(tickets.map(ticket => {
+    const form = (ticket.TicketForm == null) ? {} : ticket.TicketForm
     return channel.guild.members.fetch(ticket.userId)
       .then(guildMember => {
+        const creator = (guildMember == null) ? {} : guildMember.user
         return {
           name: ticket.id,
-          value: `${ticket.TicketForm.name} by <@!${guildMember.user.id}>(${guildMember.user.username}#${guildMember.user.discriminator})${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
+          value: `${form.name} by <@!${creator.id}>(${creator.username}#${creator.discriminator})${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
       })
       .catch(() => {
         return {
           name: ticket.id,
-          value: `${ticket.TicketForm.name} by \`user not found\`${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
+          value: `${form.name} by \`user not found\`${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
       })
   }))
 
