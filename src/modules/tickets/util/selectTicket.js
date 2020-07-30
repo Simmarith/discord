@@ -1,6 +1,21 @@
 const Models = require('../../../../models'),
  Ticket = Models.Ticket,
  TicketForm = Models.TicketForm
+
+function userNotFoundTicketField(ticket, form) {
+  return {
+    name: ticket.id,
+    value: `${form.name} by \`user not found\`${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`
+  } 
+}
+
+function ticketField(ticket, form, creator) {
+  return {
+    name: ticket.id,
+    value: `${form.name} by <@!${creator.id}>(${creator.username}#${creator.discriminator})${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`
+  } 
+}
+
 /**
  * lets the user select a ticket out of all avaiable tickets for that server
  * @exports selectTicket
@@ -25,18 +40,18 @@ module.exports = async(serverId, channel, selectBy, {state = 'open', user = null
 
   const fields = await Promise.all(tickets.map(ticket => {
     const form = (ticket.TicketForm == null) ? {} : ticket.TicketForm
-    return channel.guild.members.fetch(ticket.userId)
+    return Promise.race([channel.guild.members.fetch(ticket.userId)
       .then(guildMember => {
         const creator = (guildMember == null) ? {} : guildMember.user
-        return {
-          name: ticket.id,
-          value: `${form.name} by <@!${creator.id}>(${creator.username}#${creator.discriminator})${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
+        return ticketField(ticket, form, creator)
       })
       .catch(() => {
-        return {
-          name: ticket.id,
-          value: `${form.name} by \`user not found\`${ticket.assigneeId != null ? ` claimed by <@${ticket.assigneeId}>` : ''}`} 
+        return userNotFoundTicketField(ticket, form)
+      }),
+      new Promise(res => {
+        setTimeout(res, 300, userNotFoundTicketField(ticket, form))
       })
+    ])
   }))
 
 
