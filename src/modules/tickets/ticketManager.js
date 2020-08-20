@@ -106,7 +106,10 @@ class TicketManager extends Module {
       .then(ticket => {
         ticket.state = 'claimed'
         ticket.assigneeId = message.member.id
-        ticket.save().then(() => { message.channel.send('Ticket claimed!') })
+        ticket.save().then(() => {
+          message.channel.send('Ticket claimed!')
+          this.showTicket(message, ticket.id)
+        })
       })
       .catch(() => message.channel.send('couldn´t get ticket'))
   }
