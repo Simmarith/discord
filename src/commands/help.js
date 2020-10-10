@@ -12,6 +12,8 @@ module.exports = (message) => {
       {name: 'deleteImages', params: '<number>', description: 'delete the last <number> images and embeds in this channel'},
       {name: 'banName', params: '<name>', description: 'ban users with that name instantly on join (exact match)'},
       {name: 'unbanName', params: '<name>', description: 'remove autoban for that name'},
+      {name: 'addVoiceRole', params: '<channel> <role>', description: 'add an association between a voice channel and a role. Users get that role for the stay in that channel.'},
+      {name: 'removeVoiceRoles', params: '<channel>', description: 'remove that association'},
       {name: 'ticket', params: '<command>', description: `interact with tickets - type \`${prefix}ticket\` for more info`}
     ])
   })

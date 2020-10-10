@@ -1,7 +1,6 @@
-
 module.exports = {
   up: async(queryInterface, Sequelize) => {
-    await queryInterface.createTable('Nicknames', {
+    await queryInterface.createTable('VoiceRoles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,10 +10,10 @@ module.exports = {
       serverId: {
         type: Sequelize.STRING
       },
-      userId: {
+      channelId: {
         type: Sequelize.STRING
       },
-      value: {
+      roleId: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -28,6 +27,6 @@ module.exports = {
     })
   },
   down: async(queryInterface) => {
-    await queryInterface.dropTable('Nicknames')
+    await queryInterface.dropTable('VoiceRoles')
   }
 }
