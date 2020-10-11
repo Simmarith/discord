@@ -17,6 +17,7 @@ module.exports = {
         'array-bracket-newline': 'off',
         'array-bracket-spacing': 'error',
         'array-callback-return': 'error',
+        'no-case-declarations': 'off',
         'array-element-newline': 'off',
         'arrow-body-style': 'off',
         'arrow-parens': 'off',

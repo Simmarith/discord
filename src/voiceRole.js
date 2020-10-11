@@ -1,7 +1,13 @@
 const VoiceRole = require('../models/').VoiceRole
+const RoleManager = require('./util/RoleManager')
 
 module.exports = (client) => {
   client.on('voiceStateUpdate', async(oldState, newState) => {
+    let user = ''
+    const roleDiff = {
+      add: [],
+      remove: []
+    }
     if (oldState.channelID != null) {
       const voiceRoles = await VoiceRole.findAll({
         where: {
@@ -10,13 +16,10 @@ module.exports = (client) => {
         }
       })
 
-      const rolesToRemove = []
-
-      voiceRoles.forEach(async(voiceRole) => {
-        rolesToRemove.push(oldState.guild.roles.fetch(voiceRole.roleId))
+      voiceRoles.forEach((voiceRole) => {
+        user = oldState.member
+        roleDiff.remove.push(voiceRole.roleId)
       })
-
-      oldState.member.roles.remove(await Promise.all(rolesToRemove))
     }
 
     if (newState.channelID != null) {
@@ -27,13 +30,14 @@ module.exports = (client) => {
         }
       })
 
-      const rolesToAdd = []
-
-      voiceRoles.forEach(async(voiceRole) => {
-        rolesToAdd.push(newState.guild.roles.fetch(voiceRole.roleId))
+      voiceRoles.forEach((voiceRole) => {
+        user = newState.member
+        roleDiff.add.push(voiceRole.roleId)
       })
+    }
 
-      oldState.member.roles.add(await Promise.all(rolesToAdd))
+    if (roleDiff.add.length !== 0 || roleDiff.remove.length !== 0) {
+      RoleManager.changeRoles(user, roleDiff)
     }
   })
 }
