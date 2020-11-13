@@ -9,6 +9,7 @@ module.exports = async(message) => {
   })
   if (nick != null) {
     message.member.setNickname(nick.value, 'afk deactivated')
+      .catch(() => message.channel.send('I am not privileged enough to change your nickname back.'))
     message.channel.send('AFK deactivated.')
     nick.destroy()
   } else {
